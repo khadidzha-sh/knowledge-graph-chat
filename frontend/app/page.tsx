@@ -1,5 +1,8 @@
 "use client";
 
+import PaperUpload from "@/components/paperUpload";
+import { useState } from "react";
+
 import {
   AssistantRuntimeProvider,
   useLocalRuntime,
@@ -25,6 +28,7 @@ const demoAdapter: ChatModelAdapter = {
 
 export default function Home() {
   const runtime = useLocalRuntime(demoAdapter);
+  const [selectedPaper, setSelectedPaper] = useState<File | null>(null);
 
   return (
     <AssistantRuntimeProvider runtime={runtime}>
@@ -38,6 +42,11 @@ export default function Home() {
             Ask me questions about research papers
           </p>
         </header>
+        {/* paper upload */}
+        <PaperUpload
+          selectedPaper={selectedPaper}
+          onPaperSelect={setSelectedPaper}
+        />
         {/* chat thread */}
         <ThreadPrimitive.Root className="mx-auto flex w-full max-w-3xl min-h-0 flex-1 flex-col">
           {/* messages area */}
