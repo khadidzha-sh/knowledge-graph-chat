@@ -2,6 +2,7 @@
 
 import PaperUpload from "@/components/paperUpload";
 import { useState } from "react";
+import type {UploadedPaper} from "@/lib/api";
 
 import {
   AssistantRuntimeProvider,
@@ -28,7 +29,7 @@ const demoAdapter: ChatModelAdapter = {
 
 export default function Home() {
   const runtime = useLocalRuntime(demoAdapter);
-  const [selectedPaper, setSelectedPaper] = useState<File | null>(null);
+  const [uploadedPaper, setUploadedPaper] = useState<UploadedPaper | null>(null);
 
   return (
     <AssistantRuntimeProvider runtime={runtime}>
@@ -42,11 +43,18 @@ export default function Home() {
             Ask me questions about research papers
           </p>
         </header>
+        
         {/* paper upload */}
-        <PaperUpload
-          selectedPaper={selectedPaper}
-          onPaperSelect={setSelectedPaper}
-        />
+        <div className="border-b border-gray-200">
+          <PaperUpload onUploaded={setUploadedPaper} />
+          
+          {uploadedPaper && (
+            <p className="pb-4 text-center text-sm text-green-700">
+              Uploaded: {uploadedPaper.filename}
+            </p>
+          )}
+        </div>
+
         {/* chat thread */}
         <ThreadPrimitive.Root className="mx-auto flex w-full max-w-3xl min-h-0 flex-1 flex-col">
           {/* messages area */}
