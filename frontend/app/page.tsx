@@ -3,6 +3,7 @@
 import PaperUpload from "@/components/paperUpload";
 import { useState } from "react";
 import type {UploadedPaper} from "@/lib/api";
+import PaperDetails from "../components/paperDetails";
 
 import {
   AssistantRuntimeProvider,
@@ -33,7 +34,7 @@ export default function Home() {
 
   return (
     <AssistantRuntimeProvider runtime={runtime}>
-      <main className="flex h-screen flex-col bg-white text-gray-900">
+      <main className="flex min-h-screen flex-col bg-white text-gray-900">
         {/* header */}
         <header className="border-b border-gray-200 p-5 text-center">
           <h1 className="text-2xl font-semibold">
@@ -49,9 +50,13 @@ export default function Home() {
           <PaperUpload onUploaded={setUploadedPaper} />
           
           {uploadedPaper && (
-            <p className="pb-4 text-center text-sm text-green-700">
-              Uploaded: {uploadedPaper.filename}
-            </p>
+            <div className="mx-auto w-full max-w-3xl space-y-4 p-4">
+              <p className="text-center text-sm font-medium text-green-700">
+                {uploadedPaper.message}
+              </p>
+
+              <PaperDetails article={uploadedPaper.article} />
+            </div>
           )}
         </div>
 
